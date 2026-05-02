@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>909 — Cairo Streetwear</title>
+<meta name="description" content="909 is a Cairo-bred streetwear label. No noise. No fluff. Just cuts that speak.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f2ec;
+    --red: #e02020;
+    --gray: #1a1a1a;
+    --muted: #555;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Space Mono', monospace;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2.5rem;
+    border-bottom: 1px solid #222;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(8px);
+  }
+  .logo { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; letter-spacing: 0.15em; color: var(--white); text-decoration: none; }
+  .logo span { color: var(--red); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { color: #999; text-decoration: none; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta { font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; border: 1px solid var(--white); padding: 0.55rem 1.2rem; color: var(--white); text-decoration: none; transition: all 0.2s; }
+  .nav-cta:hover { background: var(--white); color: var(--black); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { width: 24px; height: 1px; background: var(--white); display: block; transition: all 0.3s; }
+
+  /* ── HERO ── */
+  .hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; padding-top: 80px; }
+  .hero-left { display: flex; flex-direction: column; justify-content: center; padding: 4rem 2.5rem; border-right: 1px solid #222; }
+  .hero-tag { font-size: 0.65rem; letter-spacing: 0.25em; color: var(--red); text-transform: uppercase; margin-bottom: 1.5rem; }
+  .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(5rem, 9vw, 9rem); line-height: 0.88; color: var(--white); margin-bottom: 2rem; }
+  .hero-title .outline { -webkit-text-stroke: 1.5px var(--white); color: transparent; }
+  .hero-sub { font-size: 0.72rem; line-height: 1.8; color: #888; max-width: 340px; margin-bottom: 3rem; letter-spacing: 0.04em; }
+  .btn-group { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+  .btn-primary { background: var(--red); color: var(--white); padding: 1rem 2.2rem; font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; border: none; cursor: crosshair; transition: opacity 0.2s; text-decoration: none; display: inline-block; }
+  .btn-primary:hover { opacity: 0.85; }
+  .btn-ghost { color: #888; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; transition: color 0.2s; }
+  .btn-ghost:hover { color: var(--white); }
+  .hero-right { position: relative; overflow: hidden; background: #111; min-height: 500px; }
+  .hero-img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(20%) contrast(1.1); transition: transform 0.6s ease; }
+  .hero-right:hover .hero-img { transform: scale(1.03); }
+  .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to right, rgba(10,10,10,0.3) 0%, transparent 60%); pointer-events: none; }
+  .drop-badge { position: absolute; bottom: 2rem; right: 2rem; width: 90px; height: 90px; border-radius: 50%; border: 1px solid #333; background: rgba(10,10,10,0.8); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 0.1rem; animation: spin-slow 12s linear infinite; }
+  .drop-badge-text { font-size: 0.5rem; letter-spacing: 0.2em; color: #555; text-transform: uppercase; }
+  .drop-badge-num { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; color: var(--red); line-height: 1; }
+  @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+  /* ── TICKER ── */
+  .ticker { border-top: 1px solid #222; border-bottom: 1px solid #222; overflow: hidden; white-space: nowrap; padding: 0.85rem 0; background: var(--red); }
+  .ticker-inner { display: inline-flex; animation: ticker 18s linear infinite; }
+  .ticker-item { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--black); padding: 0 2.5rem; font-weight: 700; }
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ── PRODUCTS ── */
+  .section { padding: 5rem 2.5rem; }
+  .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; border-bottom: 1px solid #1e1e1e; padding-bottom: 1.5rem; }
+  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; letter-spacing: 0.05em; line-height: 1; }
+  .section-count { font-size: 0.65rem; letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase; }
+  .products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: #1a1a1a; }
+  .product-card { background: var(--black); overflow: hidden; position: relative; cursor: crosshair; }
+  .product-card:hover .product-overlay { opacity: 1; }
+  .product-card:hover .product-img-el { transform: scale(1.05); }
+  .product-img { width: 100%; aspect-ratio: 3/4; background: var(--gray); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+  .product-img-el { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(15%) contrast(1.08); transition: transform 0.5s ease; }
+  /* Placeholder when no image */
+  .product-img-placeholder { font-family: 'Bebas Neue', sans-serif; font-size: 4rem; color: #242424; position: absolute; }
+  .product-type-tag { position: absolute; top: 1rem; left: 1rem; font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; background: var(--black); color: #666; padding: 0.3rem 0.6rem; z-index: 2; }
+  .product-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 1rem; background: var(--red); opacity: 0; transition: opacity 0.25s; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--black); font-weight: 700; text-align: center; z-index: 2; }
+  .product-info { padding: 1.2rem 1.2rem 1.5rem; }
+  .product-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 0.08em; margin-bottom: 0.4rem; }
+  .product-meta { display: flex; justify-content: space-between; align-items: center; }
+  .product-price { font-size: 0.75rem; color: var(--white); }
+  .product-avail { font-size: 0.6rem; letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase; }
+  .product-avail.limited { color: var(--red); }
+
+  /* ── MANIFESTO ── */
+  .manifesto { padding: 6rem 2.5rem; border-top: 1px solid #1a1a1a; display: grid; grid-template-columns: 1fr 2fr; gap: 4rem; align-items: start; }
+  .manifesto-label { font-size: 0.65rem; letter-spacing: 0.25em; color: var(--red); text-transform: uppercase; padding-top: 0.5rem; }
+  .manifesto-text { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1.05; }
+  .manifesto-text .dim { color: #333; }
+
+  /* ── FOOTER ── */
+  footer { border-top: 1px solid #1a1a1a; padding: 2.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 0.15em; }
+  .footer-logo span { color: var(--red); }
+  .footer-copy { font-size: 0.6rem; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; }
+  .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+  .footer-links a { color: var(--muted); text-decoration: none; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--white); }
+
+  /* ── MOBILE ── */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .nav-cta { display: none; }
+    .hamburger { display: flex; }
+    .nav-links.open { display: flex; flex-direction: column; position: fixed; top: 60px; left: 0; right: 0; background: rgba(10,10,10,0.97); padding: 2rem 1.5rem; border-bottom: 1px solid #222; gap: 1.5rem; }
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-left { padding: 3rem 1.5rem 2rem; border-right: none; border-bottom: 1px solid #222; }
+    .hero-right { min-height: 60vw; }
+    .products-grid { grid-template-columns: repeat(2, 1fr); }
+    .manifesto { grid-template-columns: 1fr; gap: 1.5rem; padding: 4rem 1.5rem; }
+    .section { padding: 3rem 1.5rem; }
+    footer { padding: 2rem 1.5rem; flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+  }
+  @media (max-width: 480px) {
+    .products-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">9<span>0</span>9</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#collection" onclick="closeNav()">Collection</a></li>
+    <li><a href="#lookbook" onclick="closeNav()">Lookbook</a></li>
+    <li><a href="#about" onclick="closeNav()">About</a></li>
+    <li><a href="#contact" onclick="closeNav()">Contact</a></li>
+  </ul>
+  <a href="#collection" class="nav-cta">Shop Now</a>
+  <div class="hamburger" id="hamburger" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-tag">// SS-2025 Drop 001</p>
+    <h1 class="hero-title">
+      BUILT<br>
+      <span class="outline">FOR</span><br>
+      THE<br>
+      STREETS
+    </h1>
+    <p class="hero-sub">909 is a Cairo-bred streetwear label. No noise. No fluff. Just cuts that speak, fabrics that last, and energy that carries.</p>
+    <div class="btn-group">
+      <a href="#collection" class="btn-primary">Shop the Drop</a>
+      <a href="#about" class="btn-ghost">Our Story →</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <!--
+      ════════════════════════════════════════
+      HERO IMAGE — بدّل الصورة هنا
+      ════════════════════════════════════════
+      حط صورتك في فولدر images/ واكتب:
+      <img class="hero-img" src="images/hero.jpg" alt="909">
+
+      أو لو رافع على Cloudinary/Imgur:
+      <img class="hero-img" src="https://رابط-صورتك.jpg" alt="909">
+    -->
+    <img class="hero-img" src="https://images.unsplash.com/photo-1523398002811-999ca8dec234?w=900&q=80" alt="909 Streetwear" />
+    <div class="hero-overlay"></div>
+    <div class="drop-badge">
+      <span class="drop-badge-text">Drop</span>
+      <span class="drop-badge-num">001</span>
+      <span class="drop-badge-text">Now Live</span>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="ticker-item">909 Originals</span><span class="ticker-item">★</span>
+    <span class="ticker-item">SS-2025 Drop 001</span><span class="ticker-item">★</span>
+    <span class="ticker-item">Cairo Streets</span><span class="ticker-item">★</span>
+    <span class="ticker-item">Limited Quantities</span><span class="ticker-item">★</span>
+    <span class="ticker-item">909 Originals</span><span class="ticker-item">★</span>
+    <span class="ticker-item">SS-2025 Drop 001</span><span class="ticker-item">★</span>
+    <span class="ticker-item">Cairo Streets</span><span class="ticker-item">★</span>
+    <span class="ticker-item">Limited Quantities</span><span class="ticker-item">★</span>
+  </div>
+</div>
+
+<!-- COLLECTION -->
+<section class="section" id="collection">
+  <div class="section-header">
+    <h2 class="section-title">Drop 001</h2>
+    <span class="section-count">06 Pieces — All Limited</span>
+  </div>
+  <div class="products-grid">
+
+    <!-- PRODUCT 1 -->
+    <div class="product-card">
+      <div class="product-img">
+        <!--
+          بدّل src بصورة المنتج:
+          src="images/hoodie.jpg"
+        -->
+        <img class="product-img-el" src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=600&q=80" alt="909 Core Hoodie" />
+        <span class="product-type-tag">Hoodie</span>
+        <div class="product-overlay">Quick Add +</div>
+      </div>
+      <div class="product-info">
+        <p class="product-name">909 Core Hoodie</p>
+        <div class="product-meta">
+          <span class="product-price">EGP 1,200</span>
+          <span class="product-avail limited">Low Stock</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRODUCT 2 -->
+    <div class="product-card">
+      <div class="product-img">
+        <img class="product-img-el" src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&q=80" alt="Signal Tee" />
+        <span class="product-type-tag">T-Shirt</span>
+        <div class="product-overlay">Quick Add +</div>
+      </div>
+      <div class="product-info">
+        <p class="product-name">Signal Tee</p>
+        <div class="product-meta">
+          <span class="product-price">EGP 650</span>
+          <span class="product-avail">In Stock</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRODUCT 3 -->
+    <div class="product-card">
+      <div class="product-img">
+        <img class="product-img-el" src="https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=600&q=80" alt="Block Jogger" />
+        <span class="product-type-tag">Joggers</span>
+        <div class="product-overlay">Quick Add +</div>
+      </div>
+      <div class="product-info">
+        <p class="product-name">Block Jogger</p>
+        <div class="product-meta">
+          <span class="product-price">EGP 950</span>
+          <span class="product-avail limited">2 Left</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRODUCT 4 -->
+    <div class="product-card">
+      <div class="product-img">
+        <img class="product-img-el" src="https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=600&q=80" alt="909 Snapback" />
+        <span class="product-type-tag">Cap</span>
+        <div class="product-overlay">Quick Add +</div>
+      </div>
+      <div class="product-info">
+        <p class="product-name">909 Snapback</p>
+        <div class="product-meta">
+          <span class="product-price">EGP 450</span>
+          <span class="product-avail">In Stock</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRODUCT 5 -->
+    <div class="product-card">
+      <div class="product-img">
+        <img class="product-img-el" src="https://images.unsplash.com/photo-1556821840-3a63f15732ce?w=600&q=80" alt="Noise Crew" />
+        <span class="product-type-tag">Crewneck</span>
+        <div class="product-overlay">Quick Add +</div>
+      </div>
+      <div class="product-info">
+        <p class="product-name">Noise Crew</p>
+        <div class="product-meta">
+          <span class="product-price">EGP 850</span>
+          <span class="product-avail limited">Low Stock</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRODUCT 6 -->
+    <div class="product-card">
+      <div class="product-img">
+        <img class="product-img-el" src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600&q=80" alt="Station Coach" />
+        <span class="product-type-tag">Jacket</span>
+        <div class="product-overlay">Quick Add +</div>
+      </div>
+      <div class="product-info">
+        <p class="product-name">Station Coach</p>
+        <div class="product-meta">
+          <span class="product-price">EGP 1,750</span>
+          <span class="product-avail limited">3 Left</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- MANIFESTO / ABOUT -->
+<div class="manifesto" id="about">
+  <span class="manifesto-label">// Manifesto</span>
+  <p class="manifesto-text">
+    <span class="dim">NOT MADE FOR</span><br>
+    EVERYONE.<br>
+    <span class="dim">MADE FOR THE</span><br>
+    ONES WHO<br>
+    GET IT.
+  </p>
+</div>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <span class="footer-logo">9<span>0</span>9</span>
+  <ul class="footer-links">
+    <li><a href="https://instagram.com" target="_blank">Instagram</a></li>
+    <li><a href="https://tiktok.com" target="_blank">TikTok</a></li>
+    <li><a href="mailto:hello@909brand.com">Contact</a></li>
+  </ul>
+  <span class="footer-copy">© 2025 909 Brand. Cairo, Egypt.</span>
+</footer>
+
+<script>
+  function toggleNav() {
+    document.getElementById('navLinks').classList.toggle('open');
+  }
+  function closeNav() {
+    document.getElementById('navLinks').classList.remove('open');
+  }
+</script>
+
+</body>
+</html>
