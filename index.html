@@ -217,6 +217,61 @@
   .wa-float:hover { transform: scale(1.08); }
   .wa-float svg { width: 28px; height: 28px; fill: white; }
 
+  /* ── SIZE GUIDE MODAL ── */
+  .size-modal-backdrop {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.88); z-index: 200;
+    align-items: center; justify-content: center; padding: 1rem;
+  }
+  .size-modal-backdrop.open { display: flex; }
+  .size-modal {
+    background: #111; border: 1px solid #2a2a2a;
+    width: 100%; max-width: 640px; padding: 2.5rem;
+    position: relative; max-height: 90vh; overflow-y: auto;
+    animation: slideUp 0.25s ease;
+  }
+  .size-table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; font-size: 0.7rem; }
+  .size-table th { background: var(--red); color: var(--white); padding: 0.7rem 1rem; text-align: left; letter-spacing: 0.1em; font-weight: 700; font-size: 0.6rem; text-transform: uppercase; }
+  .size-table td { padding: 0.7rem 1rem; border-bottom: 1px solid #1e1e1e; color: #aaa; }
+  .size-table tr:hover td { background: #161616; color: var(--white); }
+  .size-table td:first-child { color: var(--white); font-weight: 700; font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: 0.1em; }
+  .size-tip { font-size: 0.65rem; color: #555; margin-top: 1.5rem; line-height: 1.8; border-top: 1px solid #1e1e1e; padding-top: 1rem; }
+  .size-tip span { color: var(--red); }
+
+  /* ── INSTAGRAM FEED ── */
+  .insta-section { padding: 5rem 2.5rem; border-top: 1px solid #1a1a1a; }
+  .insta-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; margin-top: 2rem; }
+  .insta-item { position: relative; aspect-ratio: 1; overflow: hidden; background: #111; cursor: pointer; }
+  .insta-item img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(30%) contrast(1.05); transition: all 0.4s ease; display: block; }
+  .insta-item:hover img { filter: grayscale(0%) contrast(1.1); transform: scale(1.06); }
+  .insta-overlay { position: absolute; inset: 0; background: rgba(10,10,10,0); display: flex; align-items: center; justify-content: center; transition: background 0.3s; }
+  .insta-item:hover .insta-overlay { background: rgba(10,10,10,0.45); }
+  .insta-icon { opacity: 0; transition: opacity 0.3s; }
+  .insta-item:hover .insta-icon { opacity: 1; }
+  .insta-handle { display: flex; align-items: center; gap: 0.6rem; margin-top: 1.5rem; }
+  .insta-handle a { font-size: 0.7rem; letter-spacing: 0.15em; color: #888; text-decoration: none; text-transform: uppercase; transition: color 0.2s; }
+  .insta-handle a:hover { color: var(--white); }
+  .insta-dot { width: 6px; height: 6px; background: var(--red); border-radius: 50%; }
+  .insta-note { font-size: 0.6rem; color: #333; margin-top: 0.6rem; letter-spacing: 0.05em; line-height: 1.7; }
+  .insta-note a { color: #555; }
+
+  /* ── COUNTDOWN ── */
+  .countdown-bar {
+    background: #0f0f0f; border-top: 1px solid #1a1a1a; border-bottom: 1px solid #1a1a1a;
+    padding: 2.5rem 2.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem;
+  }
+  .countdown-label { font-size: 0.65rem; letter-spacing: 0.25em; color: var(--red); text-transform: uppercase; margin-bottom: 0.4rem; }
+  .countdown-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 0.05em; }
+  .countdown-units { display: flex; gap: 1.5rem; }
+  .countdown-unit { text-align: center; }
+  .countdown-num { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; line-height: 1; color: var(--white); min-width: 70px; display: block; }
+  .countdown-unit-label { font-size: 0.55rem; letter-spacing: 0.2em; color: #444; text-transform: uppercase; margin-top: 0.3rem; }
+  .countdown-sep { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: #2a2a2a; line-height: 1; align-self: flex-start; padding-top: 0.1rem; }
+
+  /* Size Guide trigger btn */
+  .size-guide-link { font-size: 0.6rem; letter-spacing: 0.15em; color: #555; text-transform: uppercase; text-decoration: underline; cursor: pointer; background: none; border: none; font-family: 'Space Mono', monospace; transition: color 0.2s; display: block; margin-top: 0.5rem; }
+  .size-guide-link:hover { color: var(--white); }
+
   /* ── MOBILE ── */
   @media (max-width: 768px) {
     nav { padding: 1rem 1.5rem; }
@@ -422,6 +477,120 @@
   </div>
 </section>
 
+<!-- COUNTDOWN — NEXT DROP -->
+<div class="countdown-bar" id="nextdrop">
+  <div>
+    <p class="countdown-label">// Next Drop Coming</p>
+    <p class="countdown-title">Drop 002 — Summer Heat</p>
+  </div>
+  <div class="countdown-units">
+    <div class="countdown-unit">
+      <span class="countdown-num" id="cd-days">00</span>
+      <span class="countdown-unit-label">Days</span>
+    </div>
+    <span class="countdown-sep">:</span>
+    <div class="countdown-unit">
+      <span class="countdown-num" id="cd-hrs">00</span>
+      <span class="countdown-unit-label">Hours</span>
+    </div>
+    <span class="countdown-sep">:</span>
+    <div class="countdown-unit">
+      <span class="countdown-num" id="cd-min">00</span>
+      <span class="countdown-unit-label">Mins</span>
+    </div>
+    <span class="countdown-sep">:</span>
+    <div class="countdown-unit">
+      <span class="countdown-num" id="cd-sec">00</span>
+      <span class="countdown-unit-label">Secs</span>
+    </div>
+  </div>
+</div>
+
+<!-- INSTAGRAM FEED -->
+<section class="insta-section" id="lookbook">
+  <div class="section-header">
+    <h2 class="section-title">On The Gram</h2>
+    <span class="section-count">@909.brand</span>
+  </div>
+  <div class="insta-grid">
+    <div class="insta-item">
+      <!-- بدّل بصورك: src="images/insta-1.jpg" -->
+      <img src="https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=400&q=80" alt="909 instagram" />
+      <div class="insta-overlay">
+        <svg class="insta-icon" width="32" height="32" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </div>
+    </div>
+    <div class="insta-item">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" alt="909 instagram" />
+      <div class="insta-overlay"><svg class="insta-icon" width="32" height="32" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+    </div>
+    <div class="insta-item">
+      <img src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=400&q=80" alt="909 instagram" />
+      <div class="insta-overlay"><svg class="insta-icon" width="32" height="32" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+    </div>
+    <div class="insta-item">
+      <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&q=80" alt="909 instagram" />
+      <div class="insta-overlay"><svg class="insta-icon" width="32" height="32" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+    </div>
+    <div class="insta-item">
+      <img src="https://images.unsplash.com/photo-1516826957135-700dedea698c?w=400&q=80" alt="909 instagram" />
+      <div class="insta-overlay"><svg class="insta-icon" width="32" height="32" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+    </div>
+    <div class="insta-item">
+      <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=400&q=80" alt="909 instagram" />
+      <div class="insta-overlay"><svg class="insta-icon" width="32" height="32" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+    </div>
+    <div class="insta-item">
+      <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400&q=80" alt="909 instagram" />
+      <div class="insta-overlay"><svg class="insta-icon" width="32" height="32" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+    </div>
+    <div class="insta-item">
+      <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&q=80" alt="909 instagram" />
+      <div class="insta-overlay"><svg class="insta-icon" width="32" height="32" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+    </div>
+  </div>
+  <div class="insta-handle">
+    <span class="insta-dot"></span>
+    <a href="https://instagram.com/909.brand" target="_blank">Follow @909.brand on Instagram</a>
+  </div>
+  <p class="insta-note">
+    ☝ دي صور placeholder — بدّلها بصورك من الـ Instagram.<br>
+    أو ربّط حسابك مباشرة عن طريق <a href="https://later.com" target="_blank" style="color:#555">Later.com</a> أو <a href="https://behold.so" target="_blank" style="color:#555">Behold.so</a> (مجاني).
+  </p>
+</section>
+
+<!-- SIZE GUIDE MODAL -->
+<div class="size-modal-backdrop" id="sizeModal" onclick="closeSizeOutside(event)">
+  <div class="size-modal">
+    <button class="modal-close" onclick="closeSizeGuide()">✕</button>
+    <p class="modal-tag">// Size Guide</p>
+    <h2 class="modal-title">Find Your Fit</h2>
+    <table class="size-table">
+      <thead>
+        <tr>
+          <th>Size</th>
+          <th>Chest (cm)</th>
+          <th>Shoulder (cm)</th>
+          <th>Length (cm)</th>
+          <th>Waist (cm)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>XS</td><td>88 – 92</td><td>42</td><td>66</td><td>72 – 76</td></tr>
+        <tr><td>S</td><td>92 – 96</td><td>44</td><td>68</td><td>76 – 80</td></tr>
+        <tr><td>M</td><td>96 – 100</td><td>46</td><td>70</td><td>80 – 84</td></tr>
+        <tr><td>L</td><td>100 – 106</td><td>48</td><td>72</td><td>84 – 90</td></tr>
+        <tr><td>XL</td><td>106 – 112</td><td>50</td><td>74</td><td>90 – 96</td></tr>
+        <tr><td>XXL</td><td>112 – 120</td><td>52</td><td>76</td><td>96 – 104</td></tr>
+      </tbody>
+    </table>
+    <p class="size-tip">
+      <span>☞ How to measure:</span> قِس محيط صدرك من أعرض نقطة، والكتف من طرف لطرف، والطول من الرقبة للأسفل.<br>
+      لو بين مقاسين خد الأكبر — الـ 909 pieces فيها oversized fit خفيف.
+    </p>
+  </div>
+</div>
+
 <!-- MANIFESTO / ABOUT -->
 <div class="manifesto" id="about">
   <span class="manifesto-label">// Manifesto</span>
@@ -452,6 +621,7 @@
       <option>XL</option>
       <option>XXL</option>
     </select>
+    <button class="size-guide-link" onclick="closeModal(); openSizeGuide()">Not sure about your size? → Size Guide</button>
 
     <label class="modal-label">Your Name</label>
     <input class="modal-input" type="text" id="modalName" placeholder="e.g. Ahmed Mohamed" />
@@ -468,7 +638,7 @@
 </div>
 
 <!-- FLOATING WHATSAPP -->
-<a class="wa-float" href="https://wa.me/201117907211" target="_blank" title="Chat on WhatsApp">
+<a class="wa-float" href="https://wa.me/201013476954" target="_blank" title="Chat on WhatsApp">
   <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.532 5.849L.057 23.428a.5.5 0 0 0 .609.61l5.629-1.475A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.013-1.376l-.36-.214-3.733.979.997-3.645-.234-.374A9.818 9.818 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
 </a>
 
@@ -484,7 +654,7 @@
 </footer>
 
 <script>
-  const WA_NUMBER = '201117907211';
+  const WA_NUMBER = '201013476954';
 
   function toggleNav() { document.getElementById('navLinks').classList.toggle('open'); }
   function closeNav() { document.getElementById('navLinks').classList.remove('open'); }
